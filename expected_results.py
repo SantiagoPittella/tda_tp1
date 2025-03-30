@@ -12,5 +12,5 @@ def serializar_pruebas(resultado):
     for (s_i, (t_i, e_i)) in resultado:
         serializado += "{} --> {} ± {}\n".format(s_i, t_i, e_i) 
 
-    return serializado + "\n"
+    return serializado
 

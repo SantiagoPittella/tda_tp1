@@ -1,5 +1,5 @@
 from expected_results import serializar_pruebas
-from tp1 import buscar_culpable2
+from tp1 import buscar_culpable
 
 
 DIRECTORIO_PRUEBAS = "ejemplos/"
@@ -24,7 +24,7 @@ def parsear_archivo(archivo):
 
 def coincide_con_esperado(pruebas, archivo):
     with open(DIRECTORIO_RES_ESPERADOS + archivo) as res_esperados:
-        return res_esperados.read() == serializar_pruebas(pruebas)
+        return res_esperados.read().rstrip() == serializar_pruebas(pruebas)
 
 def pruebas_catedra():
     import os
@@ -33,7 +33,7 @@ def pruebas_catedra():
 
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
-        (es_culpable, pruebas) = buscar_culpable2(t, s)
+        (es_culpable, pruebas) = buscar_culpable(t, s)
         print("Archivo: {}".format(archivo))
         print("Es culpable: {}".format(es_culpable))
         print("Pruebas esperadas coinciden? {}".format(coincide_con_esperado(pruebas, archivo)))
