@@ -30,7 +30,7 @@ import heapq
 DIRECTORIO_PRUEBAS = "ejemplos/"
 
 def buscar_culpable(t, s):
-    coincidencias = {}
+    coincidencias = []
     heap = [(ti[0] + ti[1], ti) for ti in t]
     heapq.heapify(heap)
     i = 0
@@ -38,7 +38,7 @@ def buscar_culpable(t, s):
     while heap:
         ti = heapq.heappop(heap)
         if ti[1][0] - ti[1][1] <= s[i] <= ti[1][0] + ti[1][1]:
-            coincidencias[s[i]] = ti[1]
+            coincidencias.append((s[i], ti[1]))
             i += 1
             for elem in dqed:
                 heapq.heappush(heap, elem)
@@ -97,6 +97,7 @@ def pruebas_catedra():
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
-        print(buscar_culpable2(t, s))
+        #print(buscar_culpable2(t, s))
+        print(buscar_culpable(t, s))
 
 pruebas_catedra()
