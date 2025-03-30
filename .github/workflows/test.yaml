@@ -1,0 +1,20 @@
+on:
+  pushes:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Display Python version
+        run: python3 tp1.py
