@@ -72,7 +72,7 @@ def buscar_culpable2(t, s):
         return (False, None)
     return (True, coincidencias)
 
-def buscar_culpable3(t, s):
+def buscar_culpable_ivan(t, s):
     coincidencias = []
     for si in s:
         for (ti, ei) in t:
