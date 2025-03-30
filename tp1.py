@@ -29,41 +29,19 @@ import heapq
 
 DIRECTORIO_PRUEBAS = "ejemplos/"
 
-def buscar_culpable(t, s):
-    coincidencias = {}
-    heap = [(ti[0] + ti[1], ti) for ti in t]
-    heapq.heapify(heap)
-    i = 0
-    dqed = []
-    while heap:
-        ti = heapq.heappop(heap)
-        if ti[1][0] - ti[1][1] <= s[i] <= ti[1][0] + ti[1][1]:
-            coincidencias[s[i]] = ti[1]
-            i += 1
-            for elem in dqed:
-                heapq.heappush(heap, elem)
-            dqed = []
-            continue
-        dqed.append(ti)
-    return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
-
-
 def es_posible(sospechoso, t, e):
     return (t - e) <= sospechoso <= (t + e)
 
-def buscar_culpable2(t, s):
-    coincidencias = {}
-    heap = [(ti[0] - ti[1], ti[1], ti) for ti in t]
+def buscar_culpable_santi(t, s):
+    coincidencias = []
+    heap = [(ti[0] - ti[1], ti[0], ti) for ti in t]
     heapq.heapify(heap)
-    print("len(t)", len(t), "t (heapified):", heap)
-    print("len(s)", len(s), "s:", s)
     i = 0
-    for (_, _, posible) in heapq.heappop(heap):
-        print("ti:", posible) 
-        print("si:", s[i])
+    while heap:
+        (_, _, posible) = heapq.heappop(heap)
         (ti, ei) = posible
         if es_posible(s[i], ti, ei):
-            coincidencias[s[i]] = posible
+            coincidencias.append((s[i], posible))
         else:
             return (False, None)
         i += 1
@@ -97,6 +75,6 @@ def pruebas_catedra():
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
-        print(buscar_culpable2(t, s))
+        print(buscar_culpable_santi(t, s))
 
 pruebas_catedra()
