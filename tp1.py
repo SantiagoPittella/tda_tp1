@@ -88,6 +88,23 @@ def buscar_culpable3(t, s):
 
     return es_cumplable, coincidencias if es_cumplable else None
 
+'''
+Uso:
+
+post_procesar_resultado(*tu_solucion(...))
+
+tu_solucion tiene que devolver (bool, [(si, (ti, ei))])
+'''
+def post_procesar_resultado(es_culpable: bool, coincidencias: list[tuple[int, tuple[int, int]]]):
+    if not es_culpable:
+        print("No se encontraron coincidencias")
+        return
+
+    for (si, (ti, ei)) in coincidencias:
+        print(f"{si} --> {ti} ± {ei}")
+
+    return
+
 def parsear_archivo(archivo):
     # Descarto primer linea (comentario)
     # Segunda linea me da el largo de t y s, llamemoslo N.
