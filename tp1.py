@@ -42,6 +42,7 @@ def buscar_culpable(t, s):
             i += 1
             for elem in dqed:
                 heapq.heappush(heap, elem)
+            dqed = []
             continue
         dqed.append(ti)
     return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
@@ -54,12 +55,18 @@ def buscar_culpable2(t, s):
     coincidencias = {}
     heap = [(ti[0] - ti[1], ti[1], ti) for ti in t]
     heapq.heapify(heap)
-    for (idx, (_, _, posible)) in enumerate(heap):
+    print("len(t)", len(t), "t (heapified):", heap)
+    print("len(s)", len(s), "s:", s)
+    i = 0
+    for (_, _, posible) in heapq.heappop(heap):
+        print("ti:", posible) 
+        print("si:", s[i])
         (ti, ei) = posible
-        if es_posible(s[idx], ti, ei):
-            coincidencias[s[idx]] = posible
+        if es_posible(s[i], ti, ei):
+            coincidencias[s[i]] = posible
         else:
             return (False, None)
+        i += 1
     
     if len(coincidencias) != len(s):
         return (False, None)
@@ -90,6 +97,6 @@ def pruebas_catedra():
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
-        print(buscar_culpable(t, s))
+        print(buscar_culpable2(t, s))
 
 pruebas_catedra()
