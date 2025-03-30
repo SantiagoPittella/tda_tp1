@@ -72,6 +72,7 @@ def buscar_culpable2(t, s):
         return (False, None)
     return (True, coincidencias)
 
+# TODO: Greedizar
 def buscar_culpable_ivan(t, s):
     coincidencias = []
     for si in s:
