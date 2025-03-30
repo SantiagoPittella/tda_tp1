@@ -84,9 +84,9 @@ def buscar_culpable3(t, s):
         else:
             return False, None
     
-    es_cumplable = len(coincidencias) == len(s)
+    es_culpable = len(coincidencias) == len(s)
 
-    return es_cumplable, coincidencias if es_cumplable else None
+    return es_culpable, coincidencias if es_culpable else None
 
 '''
 Uso:
