@@ -72,6 +72,22 @@ def buscar_culpable2(t, s):
         return (False, None)
     return (True, coincidencias)
 
+def buscar_culpable3(t, s):
+    coincidencias = []
+    for si in s:
+        for (ti, ei) in t:
+            if (ti - ei) <= si <= (ti + ei):
+                coincidencias.append((si, (ti, ei)))
+                # Asumo una sola coincidencia por transaccion
+                # Despues vere si es posible que haya mas de una
+                break
+        else:
+            return False, None
+    
+    es_cumplable = len(coincidencias) == len(s)
+
+    return es_cumplable, coincidencias if es_cumplable else None
+
 def parsear_archivo(archivo):
     # Descarto primer linea (comentario)
     # Segunda linea me da el largo de t y s, llamemoslo N.
