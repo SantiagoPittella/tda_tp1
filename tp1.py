@@ -27,6 +27,8 @@ los timestamps aproximados pueden solaparse parcial o totalmente.
 
 import heapq
 
+DIRECTORIO_PRUEBAS = "ejemplos/"
+
 def buscar_culpable(t, s):
     coincidencias = {}
     heap = [(ti[0] + ti[1], ti) for ti in t]
@@ -63,10 +65,6 @@ def buscar_culpable2(t, s):
         return (False, None)
     return (True, coincidencias)
 
-# s = [1, 3, 4, 5]
-# t = [[1, 2], [2, 3], [3, 4], [4, 1]]
-# print(buscar_culpable2(t, s))
-
 def parsear_archivo(archivo):
     # Descarto primer linea (comentario)
     # Segunda linea me da el largo de t y s, llamemoslo N.
@@ -87,11 +85,10 @@ def parsear_archivo(archivo):
 def pruebas_catedra():
     import os
 
-    directorio = "tp1/"
-    archivos = os.listdir(directorio)
+    archivos = os.listdir(DIRECTORIO_PRUEBAS)
 
     for archivo in archivos:
-        t, s = parsear_archivo("tp1/" + archivo)
+        t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
         print(buscar_culpable(t, s))
 
