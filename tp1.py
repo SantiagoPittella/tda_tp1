@@ -30,4 +30,4 @@ import heapq
 DIRECTORIO_PRUEBAS = "ejemplos/"
 
 def buscar_culpable(t, s):
-    return (False, None)
+    return None

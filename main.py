@@ -33,9 +33,8 @@ def pruebas_catedra():
 
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
-        (es_culpable, pruebas) = buscar_culpable(t, s)
+        pruebas = buscar_culpable(t, s)
         print("Archivo: {}".format(archivo))
-        print("Es culpable: {}".format(es_culpable))
         print("Pruebas esperadas coinciden? {}".format(coincide_con_esperado(pruebas, archivo)))
 
 if __name__ == "__main__":
