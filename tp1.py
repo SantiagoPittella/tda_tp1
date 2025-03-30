@@ -98,7 +98,7 @@ tu_solucion tiene que devolver (bool, [(si, (ti, ei))])
 '''
 def post_procesar_resultado(es_culpable: bool, coincidencias: list[tuple[int, tuple[int, int]]]):
     if not es_culpable:
-        print("No se encontraron coincidencias")
+        print("No es el sospechoso correcto")
         return
 
     for (si, (ti, ei)) in coincidencias:
