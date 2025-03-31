@@ -47,10 +47,6 @@ def buscar_culpable(t, s):
         dqed.append(ti)
     return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
 
-
-def es_posible(sospechoso, t, e):
-    return (t - e) <= sospechoso <= (t + e)
-
 def buscar_culpable2(t, s):
     coincidencias = {}
     heap = [(ti[0] - ti[1], ti[1], ti) for ti in t]
@@ -72,22 +68,32 @@ def buscar_culpable2(t, s):
         return (False, None)
     return (True, coincidencias)
 
-# TODO: Greedizar
-def buscar_culpable_ivan(t, s):
-    coincidencias = []
-    for si in s:
-        for (ti, ei) in t:
-            if (ti - ei) <= si <= (ti + ei):
-                coincidencias.append((si, (ti, ei)))
-                # Asumo una sola coincidencia por transaccion
-                # Despues vere si es posible que haya mas de una
-                break
-        else:
-            return False, None
-    
-    es_culpable = len(coincidencias) == len(s)
+def buscar_culpable_ivan(t: list[tuple[int, int]], s: list):
+    heap = [(ti + ei, (ti, ei)) for (ti, ei) in t] # O(n)
+    heapq.heapify(heap) # O(n)
 
-    return es_culpable, coincidencias if es_culpable else None
+    pruebas = []
+    for si in s: # O(n)
+        descartados = []
+        while heap: # O(log(n))
+            _, (ti, ei) = heapq.heappop(heap)
+            if es_posible(si, ti, ei):
+                # print(f"[DEBUG] {si} --> {ti} ± {ei} ({ti + ei})")
+                pruebas.append((si, (ti, ei)))
+                for descartado in descartados:
+                    heapq.heappush(heap, descartado)
+                break
+            # print(f"[DEBUG] {si} -x> {ti} ± {ei} ({ti + ei})")
+            descartados.append((ti + ei, (ti, ei)))
+
+    
+    return pruebas if es_culpable(pruebas, s) else None
+
+def es_posible(sospechoso, t, e):
+    return (t - e) <= sospechoso <= (t + e)
+
+def es_culpable(pruebas, s):
+    return len(pruebas) == len(s)
 
 '''
 Uso:
@@ -96,15 +102,14 @@ post_procesar_resultado(*tu_solucion(...))
 
 tu_solucion tiene que devolver (bool, [(si, (ti, ei))])
 '''
-def post_procesar_resultado(es_culpable: bool, coincidencias: list[tuple[int, tuple[int, int]]]):
-    if not es_culpable:
+def post_procesar_resultado(pruebas: list[tuple[int, tuple[int, int]]] | None):
+    # print(f'{"No es" if not pruebas else "Es"}')
+    if not pruebas:
         print("No es el sospechoso correcto")
         return
 
-    for (si, (ti, ei)) in coincidencias:
+    for (si, (ti, ei)) in pruebas:
         print(f"{si} --> {ti} ± {ei}")
-
-    return
 
 def parsear_archivo(archivo):
     # Descarto primer linea (comentario)
@@ -131,6 +136,18 @@ def pruebas_catedra():
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
-        print(buscar_culpable2(t, s))
+        post_procesar_resultado(buscar_culpable_ivan(t, s))
 
-pruebas_catedra()
+
+def main(argv):
+    if len(argv) != 2:
+        # print("Uso: python3 tp1.py <ruta_al_archivo>")
+        pruebas_catedra()
+        return
+
+    t, s = parsear_archivo(argv[1])
+    post_procesar_resultado(buscar_culpable_ivan(t, s))
+
+if __name__ == "__main__":
+    import sys
+    main(sys.argv)
