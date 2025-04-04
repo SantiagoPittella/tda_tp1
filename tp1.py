@@ -29,6 +29,15 @@ import heapq
 
 DIRECTORIO_PRUEBAS = "ejemplos/"
 
+
+
+# El algoritmo busca el culpable de manera greedy ya que su optimo local es el ti + ei mas bajo,
+# es decir el tiempo de "finalizacion" de cada intervalo donde hubo actividad sospechosa.
+# Su complejidad es O(nlogn) ya que iteramos hasta vaciar un heap de n elementos, en cada iteracion desencolamos
+# del heap (operacion que es O(logn)), por tanto la complejidad es O(nlogn)
+# El algoritmo es óptimo ya que al ordenar por el final de cada intervalo, dejamos la mayor cantidad de lugar para los siguientes intervalos
+# Los casos de prueba proveidos por la catedra dan el resultado correcto.
+
 def buscar_culpable(t, s):
     coincidencias = []
     heap = [(ti[0] + ti[1], ti) for ti in t]
@@ -47,30 +56,6 @@ def buscar_culpable(t, s):
         dqed.append(ti)
     return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
 
-
-def es_posible(sospechoso, t, e):
-    return (t - e) <= sospechoso <= (t + e)
-
-def buscar_culpable2(t, s):
-    coincidencias = {}
-    heap = [(ti[0] - ti[1], ti[1], ti) for ti in t]
-    heapq.heapify(heap)
-    print("len(t)", len(t), "t (heapified):", heap)
-    print("len(s)", len(s), "s:", s)
-    i = 0
-    for (_, _, posible) in heapq.heappop(heap):
-        print("ti:", posible) 
-        print("si:", s[i])
-        (ti, ei) = posible
-        if es_posible(s[i], ti, ei):
-            coincidencias[s[i]] = posible
-        else:
-            return (False, None)
-        i += 1
-    
-    if len(coincidencias) != len(s):
-        return (False, None)
-    return (True, coincidencias)
 
 def parsear_archivo(archivo):
     # Descarto primer linea (comentario)
@@ -97,7 +82,6 @@ def pruebas_catedra():
     for archivo in archivos:
         t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
         print(archivo)
-        #print(buscar_culpable2(t, s))
         print(buscar_culpable(t, s))
 
 pruebas_catedra()
