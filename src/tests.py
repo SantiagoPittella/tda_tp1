@@ -11,6 +11,3 @@ def pruebas_catedra():
         pruebas = buscar_culpable(t, s)
         print("Archivo: {}".format(archivo))
         print("Pruebas esperadas coinciden? {}".format(coincide_con_esperado(pruebas, archivo)))
-
-if __name__ == "__main__":
-    pruebas_catedra()
