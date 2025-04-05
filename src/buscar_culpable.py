@@ -27,10 +27,6 @@ los timestamps aproximados pueden solaparse parcial o totalmente.
 
 import heapq
 
-DIRECTORIO_PRUEBAS = "ejemplos/"
-
-
-
 # El algoritmo busca el culpable de manera greedy ya que su optimo local es el ti + ei mas bajo,
 # es decir el tiempo de "finalizacion" de cada intervalo donde hubo actividad sospechosa.
 # Su complejidad es O(nlogn) ya que iteramos hasta vaciar un heap de n elementos, en cada iteracion desencolamos
@@ -55,33 +51,3 @@ def buscar_culpable(t, s):
             continue
         dqed.append(ti)
     return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
-
-
-def parsear_archivo(archivo):
-    # Descarto primer linea (comentario)
-    # Segunda linea me da el largo de t y s, llamemoslo N.
-    # Itero N veces creando los t.
-    # Itero N veces creando los s.
-    with open(archivo) as archivo:
-        lineas = archivo.readlines()
-        n = int(lineas[1])
-        t = []
-        s = []
-        for i in range(n):
-            ti = lineas[2 + i]
-            [ti, ei] = ti.split(",")
-            t.append((int(ti), int(ei)))
-            s.append(int(lineas[2 + n + i]))
-        return t, s
-
-def pruebas_catedra():
-    import os
-
-    archivos = os.listdir(DIRECTORIO_PRUEBAS)
-
-    for archivo in archivos:
-        t, s = parsear_archivo(DIRECTORIO_PRUEBAS + archivo)
-        print(archivo)
-        print(buscar_culpable(t, s))
-
-pruebas_catedra()
