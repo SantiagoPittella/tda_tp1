@@ -1,0 +1,22 @@
+# Primero viene la cantidad (n) de timestamps para ambos, luego n líneas que son un timestamp aproximado cada uno separado por una coma (',') del error, y luego n lineas de las transacciones del sospechoso
+10
+83,16
+132,7
+134,8
+183,20
+216,9
+286,12
+304,17
+450,7
+782,16
+820,20
+68
+129
+141
+175
+222
+292
+320
+452
+798
+834

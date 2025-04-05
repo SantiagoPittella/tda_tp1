@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from src.tests import pruebas_catedra
+from src.tests import pruebas_catedra, pruebas_generadas
 
 if __name__ == "__main__":
     pruebas_catedra()
+    pruebas_generadas()
