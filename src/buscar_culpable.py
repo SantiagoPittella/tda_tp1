@@ -27,7 +27,5 @@ los timestamps aproximados pueden solaparse parcial o totalmente.
 
 import heapq
 
-DIRECTORIO_PRUEBAS = "ejemplos/"
-
 def buscar_culpable(t, s):
     return None
