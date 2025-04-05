@@ -27,5 +27,27 @@ los timestamps aproximados pueden solaparse parcial o totalmente.
 
 import heapq
 
+# El algoritmo busca el culpable de manera greedy ya que su optimo local es el ti + ei mas bajo,
+# es decir el tiempo de "finalizacion" de cada intervalo donde hubo actividad sospechosa.
+# Su complejidad es O(nlogn) ya que iteramos hasta vaciar un heap de n elementos, en cada iteracion desencolamos
+# del heap (operacion que es O(logn)), por tanto la complejidad es O(nlogn)
+# El algoritmo es óptimo ya que al ordenar por el final de cada intervalo, dejamos la mayor cantidad de lugar para los siguientes intervalos
+# Los casos de prueba proveidos por la catedra dan el resultado correcto.
+
 def buscar_culpable(t, s):
-    return None
+    coincidencias = []
+    heap = [(ti[0] + ti[1], ti) for ti in t]
+    heapq.heapify(heap)
+    i = 0
+    dqed = []
+    while heap:
+        ti = heapq.heappop(heap)
+        if ti[1][0] - ti[1][1] <= s[i] <= ti[1][0] + ti[1][1]:
+            coincidencias.append((s[i], ti[1]))
+            i += 1
+            for elem in dqed:
+                heapq.heappush(heap, elem)
+            dqed = []
+            continue
+        dqed.append(ti)
+    return len(coincidencias) == len(s), coincidencias if len(coincidencias) == len(s) else None
